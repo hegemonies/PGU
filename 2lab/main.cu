@@ -32,16 +32,17 @@ __global__ void compute(float *a, float *b, float *c)
 
 int main()
 {
-	int blocks = 781;
-	int th_p_block = 128;
+	int blocks;
+	int th_p_block;
 	int N = blocks * th_p_block;
 	float *a_device;
 	float *b_device;
 	float *c_device;
 	float *buffer_host;
 	float elapsedTime;
-	int start = pow(2, 10);
-	int end = pow(2, 15); // in the task 2^23 
+	int count = 10;
+	int start = pow(2, count++);
+	int end = pow(2, 23); // in the task 2^23 
 	cudaEvent_t startEvent;
 	cudaEvent_t stopEvent;
 
@@ -54,7 +55,7 @@ int main()
 		th_p_block = 1;
 		N = blocks * th_p_block;
 		
-		while (th_p_block <= 32) {
+		while (th_p_block <= 1024) {
 			// printf("N = %d\tblocks = %d\tth_p_block = %d\n", N, blocks, th_p_block);
 	
 			// elapsedTime = 0;
@@ -95,7 +96,8 @@ int main()
 			N = blocks * th_p_block;
 		}
 
-		start += 32;
+		// start += 32;
+		start = pow(2, count++);
 
 		printf("\n");
 	}
